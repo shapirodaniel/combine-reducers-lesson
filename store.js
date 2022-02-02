@@ -8,10 +8,12 @@ const basket = [
   { id: 3, name: 'heath', basketId: 6 },
 ];
 
+// actions
 export const GET_PRODUCT = 'GET_PRODUCT';
 export const GET_SHOPPING_BASKET = 'GET_SHOPPING_BASKET';
 export const ADD_PRODUCT_TO_BASKET = 'ADD_PRODUCT_TO_BASKET';
 
+// action creators
 export const getProduct = (product) => ({
   type: GET_PRODUCT,
   payload: product,
@@ -32,6 +34,7 @@ const initState = {
   basket: [],
 };
 
+// reducer
 const reducer = (state = initState, action) => {
   switch (action.type) {
     case GET_PRODUCT: {
@@ -56,6 +59,8 @@ const reducer = (state = initState, action) => {
   }
 };
 
+// create store instance and dispatch actions
+// run this file with node <path-to-file>/store.js
 const store = createStore(reducer);
 console.log('state before actions dispatched', store.getState());
 
