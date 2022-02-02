@@ -1,43 +1,32 @@
 import { combineReducers } from 'redux';
 
-export const GET_PRODUCT = 'GET_PRODUCT';
-export const GET_SHOPPING_BASKET = 'GET_SHOPPING_BASKET';
-export const UPDATE_SHOPPING_BASKET = 'UPDATE_SHOPPING_BASKET';
+export const AUTHENTICATED = 'AUTHENTICATED';
+export const GOT_ROOMS = 'GOT_ROOMS';
+export const BOOK_ROOM = 'BOOK_ROOM';
 
-const productReducer = (state = {}, action) => {
+const reducer = (state = { user: {}, rooms: [] }, action) => {
   switch (action.type) {
-    case GET_CANDY:
+    case AUTHENTICATED:
       return { ...state, user: action.payload };
-    default:
-      return state;
-  }
-};
-
-const shoppingBasketReducer = (state = [], action) => {
-  switch (action.type) {
-    case GET_SHOPPING_BASKET:
-      return action.payload;
-
-    case UPDATE_SHOPPING_BASKET: {
-      const updatedBasket = state.map((basket) => {
-        if (basket.id === action.basketId) {
-          return { ...basket, booked: true };
+    case GOT_ROOMS:
+      return { ...state, rooms: action.payload };
+    case BOOK_ROOM:
+      const updatedRooms = state.rooms.map((room) => {
+        if (room.id === action.roomId) {
+          return { ...room, booked: true };
         } else {
-          return basket;
+          return room;
         }
       });
 
-      return updatedBasket;
-    }
-
+      return {
+        ...state,
+        rooms: updatedRooms,
+        user: { ...state.user, bookedRoom: action.roomId },
+      };
     default:
       return state;
   }
 };
 
-const rootReducer = combineReducers({
-  product: productReducer,
-  shoppingBasket: shoppingBasketReducer,
-});
-
-export default rootReducer;
+export default reducer;
